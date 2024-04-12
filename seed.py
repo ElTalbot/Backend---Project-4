@@ -27,8 +27,8 @@ with app.app_context():
     keepgoing = PostModel(content="Find your way, and be who you are!!", user_id=bertie.id)
     keepgoing.save()
 
-    # Class seeding..
-    saturday = SessionModel(name="360degree Wake Up", date=date(2024, 4, 13), day="Saturday", user_id=bertie.id)
+    # Session seeding..
+    saturday = SessionModel(name="360degree Wake Up", date=date(2024, 4, 13), day="Saturday", capacity= 20, user_id=bertie.id)
     saturday.save()
 
     # UserSession seeding..
