@@ -1,5 +1,6 @@
 from http import HTTPStatus
 from app import db
+from sqlalchemy import func
 
 from middleware.secure_route import secure_route
 from flask import Blueprint, request, g 
@@ -105,22 +106,45 @@ def update_session(session_id):
 @router.route("/sessions/book", methods=["POST"])
 @secure_route
 def book_session():
-   data = request.json
-   
-   session_id = data.get(session_id)
-   user_id = data.get(user_id)
-   print("user id", user_id)
-
-   session = UserSessionModel.query.get(session_id)
   
+   data = request.json
+   user_id = g.current_user.id
+  #  user_id = data.get("user_id")
+   session_id = data.get("session_id")
 
-   if not session:
+   session_to_book = SessionModel.query.get(session_id)
+
+
+   if not session_to_book:
       return {"message": "No session found"}, HTTPStatus.NOT_FOUND
    
-   if len(session.user) >= session.capacity:
+   num_booked_users = ( db.session.query(func.count(UserSessionModel.user_id.distinct()))
+   .filter(UserSessionModel.session_id == session_to_book.id)
+   .scalar())
+   if num_booked_users >= session_to_book.capacity:
       return {"message": "Apologies, this session is already full"}, HTTPStatus.UNAUTHORIZED
-
+   
    user_session = UserSessionModel(user_id=user_id, session_id=session_id)
    user_session.save()
 
-   return {"message": "Success! You are booked onto this session"}, HTTPStatus.UNAUTHORIZED
+   return {"message": "Success! You are booked onto this session"}, HTTPStatus.OK
+
+#  ------------------------ CANCEL A SESSION --------------------------
+@router.route("/sessions/delete", methods=["DELETE"])
+@secure_route
+def delete_session():
+  
+   data = request.json
+   user_id = g.current_user.id
+  #  user_id = data.get("user_id")
+   session_id = data.get("session_id")
+
+   user_session = UserSessionModel.query.filter_by(user_id=user_id, session_id=session_id).first()
+
+
+   if not user_session:
+      return {"message": "No session found"}, HTTPStatus.NOT_FOUND
+   
+   user_session.remove()
+
+   return {"message": "Sorry to see you have cancelled, hopefully see you next time."}, HTTPStatus.OK

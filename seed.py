@@ -28,7 +28,7 @@ with app.app_context():
     keepgoing.save()
 
     # Session seeding..
-    saturday = SessionModel(name="360degree Wake Up", date=date(2024, 4, 13), day="Saturday", capacity= 20, user_id=bertie.id)
+    saturday = SessionModel(name="360degree Wake Up", date=date(2024, 4, 13), day="Saturday", capacity= 2, user_id=bertie.id)
     saturday.save()
 
     # UserSession seeding..

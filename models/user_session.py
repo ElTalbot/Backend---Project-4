@@ -13,5 +13,5 @@ class UserSessionModel(db.Model, BaseModel):
 
  # Create the relationships 
   user = db.relationship("UserModel", back_populates="sessions")
-  session = db.relationship("SessionModel", back_populates="users")
+  session = db.relationship("SessionModel", back_populates="users_book")
 
