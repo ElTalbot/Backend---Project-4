@@ -130,9 +130,9 @@ def book_session():
    return {"message": "Success! You are booked onto this session"}, HTTPStatus.OK
 
 #  ------------------------ CANCEL A SESSION --------------------------
-@router.route("/sessions/delete", methods=["DELETE"])
+@router.route("/sessions/cancel", methods=["DELETE"])
 @secure_route
-def delete_session():
+def cancel_session():
   
    data = request.json
    user_id = g.current_user.id

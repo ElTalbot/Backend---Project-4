@@ -2,6 +2,7 @@ from app import db
 
 from models.base import BaseModel
 from models.user import UserModel
+from sqlalchemy import DateTime
 
 class PostModel(db.Model, BaseModel):
 

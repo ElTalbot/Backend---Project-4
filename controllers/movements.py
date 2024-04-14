@@ -11,7 +11,7 @@ from serializers.movement import MovementSchema
 from serializers.user import UserSchema
 
 movement_schema = MovementSchema()
-UserSchema = UserSchema()
+user_schema = UserSchema()
 
 router = Blueprint("movements", __name__)
 
