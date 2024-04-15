@@ -27,8 +27,10 @@ def signup():
 
         user_model = user_schema.load(user_dictionary)
         user_model.save()
+        
 
         return user_schema.jsonify(user_model)
+    
     except ValidationError as e:
         return { "errors": e.messages, "message": "Something went wrong" }, HTTPStatus.UNPROCESSABLE_ENTITY
     except Exception as e:

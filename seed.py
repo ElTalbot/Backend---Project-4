@@ -16,7 +16,7 @@ with app.app_context():
     print('Seeding the database!')
 
     # User seeding
-    bertie = UserModel(username="bertie", email="bertiebert@bert.com", password="password", is_admin=True)
+    bertie = UserModel(username="bertie", email="bertiebert@bert.com", password="password", is_admin="True")
     bertie.save()
 
   #   # Movement seeding
