@@ -8,7 +8,12 @@ class MovementModel(db.Model, BaseModel):
   __tablename__ = "movements"
 
   name = db.Column(db.Text, nullable=False)
-  description = db.Column(db.Text, nullable=False)
+  descriptionOne = db.Column(db.Text, nullable=False)
+  descriptionTwo = db.Column(db.Text)
+  descriptionThree = db.Column(db.Text)
+  descriptionFour = db.Column(db.Text)
+  descriptionFive = db.Column(db.Text)
+  descriptionSix = db.Column(db.Text)
   image = db.Column(db.Text, nullable=False)
   type = db.Column(db.Text, nullable=False)
   equipment = db.Column(db.Text, nullable=False)
