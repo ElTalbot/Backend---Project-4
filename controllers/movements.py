@@ -38,8 +38,6 @@ def get_single_movement(movement_id):
 @secure_route
 def create():
   movement_dictionary = request.json
- 
-  
 
   try:
     movement = movement_schema.load(movement_dictionary)
