@@ -146,7 +146,7 @@ def book_session():
     bookings = map(users_booked_sessions, all_sessions)
     bookings_list = list(bookings)
     print("Bookings list:", bookings_list)
-    
+
     return {"message": "This is a list of bookings that contains the current user_id", "bookings_list":bookings_list}, HTTPStatus.OK
 
 #  ------------------------ CANCEL A SESSION --------------------------
