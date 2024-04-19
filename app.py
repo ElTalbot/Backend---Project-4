@@ -1,5 +1,7 @@
 from flask import Flask
 
+from flask_cors import CORS
+
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_marshmallow import Marshmallow
@@ -16,6 +18,8 @@ def hello():
     return "Hello, World!"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = db_URI
+
+CORS(app)
 
 db = SQLAlchemy(app)
 
