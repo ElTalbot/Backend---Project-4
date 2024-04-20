@@ -147,7 +147,9 @@ def book_session():
     bookings_list = list(bookings)
     print("Bookings list:", bookings_list)
 
-    return {"message": "This is a list of bookings that contains the current user_id", "bookings_list":bookings_list}, HTTPStatus.OK
+
+
+    return {"user_session_ids":user_session_ids, "bookings_list":bookings_list}, HTTPStatus.OK
 
 #  ------------------------ CANCEL A SESSION --------------------------
 @router.route("/sessions/cancel", methods=["DELETE"])
