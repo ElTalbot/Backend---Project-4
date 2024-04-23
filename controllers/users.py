@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from datetime import datetime, timezone, timedelta
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, g
 
 import jwt
 
@@ -14,22 +14,14 @@ from marshmallow.exceptions import ValidationError
 
 from serializers.user import UserSchema
 
+from middleware.secure_route import secure_route
+
 from config.environment import SECRET
 
 user_schema = UserSchema()
 
 router = Blueprint('users', __name__)
 
-@router.route('/user', methods=["GET"])
-def get_current_user():
-    try:
-        current_user = request.locals.get("current_user")
-        if current_user:
-            return jsonify(current_user)
-        else: return jsonify(message="User not found"), HTTPStatus.NOT_FOUND
-    except Exception as e:
-        print(e)
-        return jsonify(message="Oh dear, an error occured. Please try again later")
 
 @router.route('/signup', methods=['POST'])
 def signup():
@@ -75,3 +67,16 @@ def login():
     )
 
     return {"message": "Login successful", "token": token}
+
+@router.route('/user', methods=["GET"])
+@secure_route
+def get_current_user():
+    try:
+        current_user = UserModel.query.get(g.current_user.id)
+        if current_user:
+            return user_schema.jsonify(current_user)
+    
+        else: return jsonify(message="User not found"), HTTPStatus.NOT_FOUND
+    except Exception as e:
+        print("ERROR", e)
+        return jsonify(message="Oh dear, an error occured. Please try again later")

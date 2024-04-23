@@ -1,6 +1,6 @@
 from http import HTTPStatus
 from sqlalchemy import func
-from flask import Blueprint, request, g 
+from flask import Blueprint, request, g, jsonify 
 from marshmallow.exceptions import ValidationError
 
 from middleware.secure_route import secure_route
@@ -27,9 +27,43 @@ router = Blueprint("sessions", __name__)
 @router.route("/sessions", methods=["GET"])
 def get_sessions():
 
-    sessions = SessionModel.query.all()
+  sessions = SessionModel.query.all()
 
-    return session_schema.jsonify(sessions, many=True)
+
+  return session_schema.jsonify(sessions, many=True)
+
+# @router.route("/sessions", methods=["GET"])
+# @secure_route
+# def get_sessions():
+
+#     user_id = 1
+#     # sessions = SessionModel.query.all()
+#     # user_id = g.current_user.id
+
+# #  Step 1 - need to get all of the sessions
+#     all_sessions = SessionModel.query.all()
+#     # print(all_sessions)
+
+#     # Step 2 - need to get a list of all the sessions that the user has signed up for
+#     current_user_sessions = UserSessionModel.query.filter_by(user_id=user_id).all() 
+#     user_session_ids = [user_session.session_id for user_session in current_user_sessions]
+#     # print("This is the current users session ids i hope:", user_session_ids)
+
+#     # Step 3 - need to combine these so creates object that listss all sessions the current user is signed up for 
+#     # Function needs to return all of the sessions with the user_id
+#     def users_booked_sessions(session):
+#         return {"session_id": session.id,
+#         "user_booked": session.id in user_session_ids}
+
+#     bookings = map(users_booked_sessions, all_sessions)
+#     bookings_list = list(bookings)
+#     print("Bookings list:", bookings_list)
+
+#     return {"message": "This is a list of bookings that contains the current user_id", "bookings_list":bookings_list, "all_sessions":all_sessions}, HTTPStatus.OK
+    
+   
+
+    # return session_schema.jsonify({"bookings_list": bookings_list, "sessions":sessions}, many=True)
 
 #  ------------------------ GET A SINGLE SESSION --------------------------
 @router.route("/sessions/<int:session_id>", methods=["GET"])
@@ -107,49 +141,30 @@ def update_session(session_id):
 @router.route("/sessions/book", methods=["POST"])
 @secure_route
 def book_session():
-  
     data = request.json
     user_id = g.current_user.id
-  #  user_id = data.get("user_id")
     session_id = data.get("session_id")
 
     session_to_book = SessionModel.query.get(session_id)
 
-
     if not session_to_book:
         return {"message": "No session found"}, HTTPStatus.NOT_FOUND
-   
-    num_booked_users = ( db.session.query(func.count(UserSessionModel.user_id.distinct()))
-    .filter(UserSessionModel.session_id == session_to_book.id)
-    .scalar())
+
+    num_booked_users = (
+        db.session.query(func.count(UserSessionModel.user_id.distinct()))
+        .filter(UserSessionModel.session_id == session_to_book.id)
+        .scalar()
+    )
     if num_booked_users >= session_to_book.capacity:
         return {"message": "Apologies, this session is already full"}, HTTPStatus.UNAUTHORIZED
-   
+
     user_session = UserSessionModel(user_id=user_id, session_id=session_id)
     user_session.save()
 
-  #  Step 1 - need to get all of the sessions
-    all_sessions = SessionModel.query.all()
-    # print(all_sessions)
-
-    # Step 2 - need to get a list of all the sessions that the user has signed up for
-    current_user_sessions = UserSessionModel.query.filter_by(user_id=user_id).all() 
-    user_session_ids = [user_session.session_id for user_session in current_user_sessions]
-    # print("This is the current users session ids i hope:", user_session_ids)
-
-    # Step 3 - need to combine these so creates object that listss all sessions the current user is signed up for 
-    # Function needs to return all of the sessions with the user_id
-    def users_booked_sessions(session):
-        return {"session_id": session.id,
-        "user_booked": session.id in user_session_ids}
+    return {"message": "User successfully added to the session"}, HTTPStatus.OK
     
-    bookings = map(users_booked_sessions, all_sessions)
-    bookings_list = list(bookings)
-    print("Bookings list:", bookings_list)
-
-
-
-    return {"user_session_ids":user_session_ids, "bookings_list":bookings_list}, HTTPStatus.OK
+    
+   
 
 #  ------------------------ CANCEL A SESSION --------------------------
 @router.route("/sessions/cancel", methods=["DELETE"])
