@@ -3,7 +3,7 @@ from models.movement import MovementModel
 
 class MovementSchema(marsh.SQLAlchemyAutoSchema):
 
-  class Meta:
+    class Meta:
 
-    model = MovementModel
-    load_instance = True
+        model = MovementModel
+        load_instance = True

@@ -6,11 +6,11 @@ from flask import Blueprint, request, jsonify, g
 
 import jwt
 
+from marshmallow.exceptions import ValidationError
+
 from models.user import UserModel
 
 from app import db
-
-from marshmallow.exceptions import ValidationError
 
 from serializers.user import UserSchema
 

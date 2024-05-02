@@ -1,14 +1,15 @@
 from http import HTTPStatus
-from app import db
 
-from middleware.secure_route import secure_route
+
+
 from flask import Blueprint, request, g 
 from marshmallow.exceptions import ValidationError
-
+from middleware.secure_route import secure_route
 from models.post import PostModel
-from models.user import UserModel
+# from models.user import UserModel
 from serializers.post import PostSchema
 from serializers.user import UserSchema
+from app import db
 
 post_schema = PostSchema()
 user_schema = UserSchema()

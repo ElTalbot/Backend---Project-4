@@ -10,11 +10,9 @@ from app import db
 
 
 from models.session import SessionModel
-from models.user import UserModel
 from models.user_session import UserSessionModel
 from serializers.session import SessionSchema
 from serializers.user_session import UserSessionSchema
-from serializers.user import UserSchema
 
 
 session_schema = SessionSchema()
@@ -27,44 +25,12 @@ router = Blueprint("sessions", __name__)
 @router.route("/sessions", methods=["GET"])
 def get_sessions():
 
-  sessions = SessionModel.query.all()
-
-
-  return session_schema.jsonify(sessions, many=True)
-
-# @router.route("/sessions", methods=["GET"])
-# @secure_route
-# def get_sessions():
-
-#     user_id = 1
-#     # sessions = SessionModel.query.all()
-#     # user_id = g.current_user.id
-
-# #  Step 1 - need to get all of the sessions
-#     all_sessions = SessionModel.query.all()
-#     # print(all_sessions)
-
-#     # Step 2 - need to get a list of all the sessions that the user has signed up for
-#     current_user_sessions = UserSessionModel.query.filter_by(user_id=user_id).all() 
-#     user_session_ids = [user_session.session_id for user_session in current_user_sessions]
-#     # print("This is the current users session ids i hope:", user_session_ids)
-
-#     # Step 3 - need to combine these so creates object that listss all sessions the current user is signed up for 
-#     # Function needs to return all of the sessions with the user_id
-#     def users_booked_sessions(session):
-#         return {"session_id": session.id,
-#         "user_booked": session.id in user_session_ids}
-
-#     bookings = map(users_booked_sessions, all_sessions)
-#     bookings_list = list(bookings)
-#     print("Bookings list:", bookings_list)
-
-#     return {"message": "This is a list of bookings that contains the current user_id", "bookings_list":bookings_list, "all_sessions":all_sessions}, HTTPStatus.OK
-    
+    sessions = SessionModel.query.all()
    
 
-    # return session_schema.jsonify({"bookings_list": bookings_list, "sessions":sessions}, many=True)
+    return session_schema.jsonify(sessions, many=True)
 
+# 
 #  ------------------------ GET A SINGLE SESSION --------------------------
 @router.route("/sessions/<int:session_id>", methods=["GET"])
 def get_single_session(session_id):
@@ -74,6 +40,18 @@ def get_single_session(session_id):
         return {"message": "No session found"}, HTTPStatus.NOT_FOUND
   
     return session_schema.jsonify(session)
+
+# -------------------------GET ALL USERSESSIONS BY SESSIONID--------------------
+@router.route("/usersessions/<int:session_id>", methods=["GET"])
+def get_usersessions(session_id):
+
+
+    user_count = (db.session.query(func.count(UserSessionModel.user_id.distinct())).filter(UserSessionModel.session_id == session_id).scalar())
+    print(user_count)
+
+    return jsonify({'user_count': user_count})
+
+
 
 #  ------------------------ POST A SESSION --------------------------
 @router.route("/sessions", methods=["POST"])

@@ -1,43 +1,50 @@
 from http import HTTPStatus
-from flask import request, g 
 from functools import wraps
-from config.environment import SECRET
+
+from flask import request, g 
 import jwt
-from models.user import UserModel
+
+from config.environment import SECRET
 from app import db
+
 
 def secure_route(func):
 
-  @wraps(func)
-  def wrapper(*args, **kwargs):
-    raw_token = request.headers.get('Authorization')
-    print(raw_token)
+    @wraps(func)
+    def wrapper(*args, **kwargs):
 
-    if not raw_token:
-      return{"message": "this i Unauthorized"}, HTTPStatus.UNAUTHORIZED
-    
-    clean_token = raw_token.replace("Bearer ", "")
-
-    try:
-      payload = jwt.decode(
-        clean_token,
-        SECRET,
-        "HS256"
-      )
-
-      user_id = payload["sub"]
-      user = db.session.query(UserModel).get(user_id)
-      if not user:
-        return {"message": "Unauthorized"}, HTTPStatus.UNAUTHORIZED
       
-      g.current_user = user
-      print(user.username)
+        raw_token = request.headers.get('Authorization')
+        print(raw_token)
 
-    except jwt.ExpiredSignatureError:
-        return { "message": "maybe Unauthorized" }, HTTPStatus.UNAUTHORIZED
-    except Exception:
-        return { "message": "is it Unauthorized" }, HTTPStatus.UNAUTHORIZED
+        if not raw_token:
+            return{"message": "this i Unauthorized"}, HTTPStatus.UNAUTHORIZED
+    
+        clean_token = raw_token.replace("Bearer ", "")
 
-    return func(*args, **kwargs)
+        try:
+            from models.user import UserModel
 
-  return wrapper
+            payload = jwt.decode(
+            clean_token,
+            SECRET,
+            "HS256"
+            )
+
+            user_id = payload["sub"]
+            user = db.session.query(UserModel).get(user_id)
+            if not user:
+                return {"message": "Unauthorized"}, HTTPStatus.UNAUTHORIZED
+      
+            g.current_user = user
+            print(user.username)
+
+        except jwt.ExpiredSignatureError:
+            return { "message": "maybe Unauthorized" }, HTTPStatus.UNAUTHORIZED
+        except Exception:
+            return { "message": "is it Unauthorized" }, HTTPStatus.UNAUTHORIZED
+
+        return func(*args, **kwargs)
+    return wrapper
+    
+   
