@@ -2,6 +2,7 @@ from http import HTTPStatus
 from sqlalchemy import func
 from flask import Blueprint, request, g, jsonify 
 from marshmallow.exceptions import ValidationError
+from typing import List
 
 from middleware.secure_route import secure_route
 
@@ -22,13 +23,65 @@ router = Blueprint("sessions", __name__)
 
 
 #  ------------------------ GET ALL SESSIONS --------------------------
+# @router.route("/sessions", methods=["GET"])
+# def get_sessions():
+
+#     #  Step 1 - need to get all of the sessions
+#     sessions = SessionModel.query.all()
+
+#     return session_schema.jsonify(sessions, many=True)
+    
+#  ------------------------ GET ALL SESSIONS AND USERBOOKING STATUS --------------------------
 @router.route("/sessions", methods=["GET"])
-def get_sessions():
+@secure_route
+def get_sessions_booked_status():
 
+    #  Step 1 - need to get all of the sessions
     sessions = SessionModel.query.all()
-   
+    user_id = g.current_user.id
 
-    return session_schema.jsonify(sessions, many=True)
+    # Step 2 get the booking status for each session
+    sessions_with_status = []
+    for session in sessions:
+        sessions_with_status.append({
+            "session_id": session.id,
+            "session_name": session.name,
+            "session_date": session.date.strftime('%Y-%m-%d'),
+            "session_capacity": session.capacity,
+            "user_booked": session.user_booked()
+        })
+
+    return jsonify({"message": "List of sessions with user booking status", "sessions_with_status": sessions_with_status}), HTTPStatus.OK
+    
+    # # Step 2 - need to get a list of all the sessions that the user has signed up for
+    # current_user_sessions = UserSessionModel.query.filter_by(user_id=user_id).all() 
+    # user_session_ids = [user_session.session_id for user_session in current_user_sessions]
+    # print("This is the current users session ids i hope:", user_session_ids)
+
+    # # Step 3 - need to combine these so creates object that listss all sessions the current user is signed up for 
+
+    # sessions_info = []
+    # for session in sessions:
+    #     sessions_info.append({
+    #         "session_id": session.id,
+    #         "user_booked": session.id in user_session_ids
+    #     })
+
+    #     # Step 4 - Combine the list of all sessions with session info
+    # combined_sessions: List[ISession] = []
+    # for session, info in zip(sessions, sessions_info):
+    #     combined_sessions.append({
+    #         "session_id": session.id,
+    #         "session_name": session.name,  
+    #         "user_booked": info["user_booked"],
+    #         "session_date": session.date,
+    #         "session_capacity": session.capacity
+    #     })
+
+    # return jsonify({"message": "List of sessions with user booking status", "combined_sessions": combined_sessions}), 200
+
+    # return jsonify({"message": "List of sessions with user booking status", "sessions_info": sessions_info}), 200
+    
 
 # 
 #  ------------------------ GET A SINGLE SESSION --------------------------

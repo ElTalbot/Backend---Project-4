@@ -1,9 +1,9 @@
 from datetime import datetime, timezone
 from app import db
+from flask import g
 
 from models.base import BaseModel
 
-# from models.user_session import UserSessionModel
 
 
 class SessionModel(db.Model, BaseModel):
@@ -18,3 +18,9 @@ class SessionModel(db.Model, BaseModel):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     users = db.relationship('UserSessionModel', back_populates="session")
+
+    def user_booked(self):
+        from models.user_session import UserSessionModel
+
+        user_id = g.current_user.id
+        return bool(UserSessionModel.query.filter_by(session_id=self.id, user_id=user_id).first())
