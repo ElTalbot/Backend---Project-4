@@ -7,6 +7,7 @@ from marshmallow import fields
 class UserSessionSchema(marsh.SQLAlchemyAutoSchema):
 
     session = fields.Nested("SessionSchema")
+    user_id = fields.Int()
 
     class Meta:
 

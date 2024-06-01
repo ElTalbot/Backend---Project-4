@@ -9,6 +9,7 @@ class PostModel(db.Model, BaseModel):
     __tablename__ = "posts"
 
     content = db.Column(db.Text, nullable=False, unique=True)
+    username = db.Column(db.Text, nullable=False, unique=False)
 
      # The foreign key tells you which column to point at (users.id),
      # so that every post points to a specific unique user

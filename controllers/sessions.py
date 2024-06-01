@@ -48,7 +48,8 @@ def get_sessions_booked_status():
             "session_name": session.name,
             "session_date": session.date.strftime('%Y-%m-%d'),
             "session_capacity": session.capacity,
-            "user_booked": session.user_booked()
+            "user_booked": session.user_booked(),
+            "session_day": session.day
         })
 
     return jsonify({"message": "List of sessions with user booking status", "sessions_with_status": sessions_with_status}), HTTPStatus.OK

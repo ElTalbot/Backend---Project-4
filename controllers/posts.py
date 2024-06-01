@@ -21,18 +21,39 @@ router = Blueprint("posts", __name__)
 def get_posts():
 
     posts = PostModel.query.all()
+    result = []
+    for post in posts:
 
-    return post_schema.jsonify(posts, many=True)
+        post_data = {
+            "id": post.id,
+            "content": post.content,
+            "user_id": post.user_id,
+            "updated_at":post.updated_at,
+            "user": {
+                "id": post.user.id,
+                "username": post.user.username
+            }
+        }
+        result.append(post_data)
+        print(post_data)
+
+
+    
+    
+
+    return post_schema.jsonify(result, many=True)
 
 
 #  ------------------------ GET A SINGLE POST --------------------------
 @router.route("/posts/<int:post_id>", methods=["GET"])
 def get_single_post(post_id):
-    post = PostModel.query.get(post_id)
+    post = db.session.query(PostModel).get(post_id)
+
+    print(post)
 
     if not post:
         return {"message": "No post found"}, HTTPStatus.NOT_FOUND
-  
+
     return post_schema.jsonify(post)
 
 
@@ -43,9 +64,11 @@ def create():
     post_dictionary = request.json
 
     try:
-        post = post_schema.load(post_dictionary)
-        post.user_id = g.current_user.id
-        print(post_dictionary)
+        post = PostModel(
+            content=post_dictionary.get("content"),
+            user_id=g.current_user.id,
+            username=post_dictionary.get("username")
+        )
         post.save()
     
         return post_schema.jsonify(post)

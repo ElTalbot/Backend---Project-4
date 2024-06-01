@@ -83,7 +83,7 @@ def update_movement(movement_id):
    
     try:
         if existing_movement.user_id != g.current_user.id:
-              return { "message": "This is not your movement! Maybe try another" }, HTTPStatus.UNAUTHORIZED
+            return { "message": "This is not your movement! Maybe try another" }, HTTPStatus.UNAUTHORIZED
 
         movement = movement_schema.load(
            movement_dictionary,

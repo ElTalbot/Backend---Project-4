@@ -12,8 +12,11 @@ class ConsentformModel(db.Model, BaseModel):
     question_five = db.Column(db.Boolean, nullable=False)
     question_six = db.Column(db.Boolean, nullable=False)
     question_seven = db.Column(db.Boolean, nullable=False)
-    question_seven = db.Column(db.Boolean, nullable=False)
+    question_eight = db.Column(db.Boolean, nullable=False)
     signed = db.Column(db.Text, nullable=False)
+    email = db.Column(db.Text, nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    date = db.Column(db.Date, nullable=False, unique=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 

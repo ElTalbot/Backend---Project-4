@@ -27,7 +27,7 @@ bcrypt = Bcrypt(app)
 
 marsh = Marshmallow(app)
 
-from controllers import sessions, users, movements, posts, parqs
+from controllers import sessions, users, movements, posts, parqs, consentforms
 
 app.register_blueprint(sessions.router, url_prefix="/api")
 
@@ -38,3 +38,5 @@ app.register_blueprint(movements.router, url_prefix="/api")
 app.register_blueprint(posts.router, url_prefix="/api")
 
 app.register_blueprint(parqs.router, url_prefix="/api")
+
+app.register_blueprint(consentforms.router, url_prefix="/api")

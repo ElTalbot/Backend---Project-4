@@ -6,6 +6,7 @@ from models.post import PostModel
 from models.session import SessionModel
 from models.user_session import UserSessionModel
 from models.parq import ParqModel
+from models.consent import ConsentformModel
 
 
 
@@ -19,13 +20,13 @@ with app.app_context():
         print('Seeding the database!')
 
     # User seeding
-        bertie = UserModel(username="bertie", email="bertiebert@bert.com", password="password", is_admin="True")
+        bertie = UserModel(username="bertie", surname="taylor", number="07846377222", email="bertiebert@bert.com", password="password", is_admin=True, terms=True)
         bertie.save()
-        freddie = UserModel(username="freddie", email="freddiefred@fred.com", password="password", is_admin="false")
+        freddie = UserModel(username="freddie", surname="fred", number="0798437782", email="freddiefred@fred.com", password="password", is_admin=False, terms=True)
         freddie.save()
-        percy = UserModel(username="percy", email="percyperc@perc.com", password="password", is_admin="false")
+        percy = UserModel(username="percy", surname="pete", number="0798746577", email="percyperc@perc.com", password="password", is_admin=False, terms=True)
         percy.save()
-        betty = UserModel(username="betty", email="bettybett@bett.com", password="password", is_admin="false")
+        betty = UserModel(username="betty", surname="bead", number="0794738892", email="bettybett@bett.com", password="password", is_admin=False, terms=True)
         betty.save()
 
   #   # Movement seeding
@@ -43,29 +44,29 @@ with app.app_context():
         fastfeet.save()
 
     # Post seeding..
-        keepgoing = PostModel(content="Attitude is the little thing that makes a big difference - Winston Churchill", user_id=bertie.id)
+        keepgoing = PostModel(content="Attitude is the little thing that makes a big difference - Winston Churchill", user_id=bertie.id, username="bertie")
         keepgoing.save()
-        keepgoing = PostModel(content="Some times on life’s ride you may fall, dust right off, get back up, give it all", user_id=bertie.id)
+        keepgoing = PostModel(content="Some times on life’s ride you may fall, dust right off, get back up, give it all", user_id=bertie.id, username="bertie")
         keepgoing.save()
-        keepgoing = PostModel(content="You can’t cross the sea merely by standing and staring at the water - Rabindranath Tagore", user_id=bertie.id)
+        keepgoing = PostModel(content="You can’t cross the sea merely by standing and staring at the water - Rabindranath Tagore", user_id=bertie.id, username="bertie")
         keepgoing.save()
-        keepgoing = PostModel(content="Be there for others, but never leave yourself behind - Dodinsky.", user_id=bertie.id)
+        keepgoing = PostModel(content="Be there for others, but never leave yourself behind - Dodinsky.", user_id=bertie.id, username="bertie")
         keepgoing.save()
-        keepgoing = PostModel(content="Did you know? There are only 10 parts of the  body that are made up of just 3letters (answers to follow)", user_id=freddie.id)
+        keepgoing = PostModel(content="Did you know? There are only 10 parts of the  body that are made up of just 3letters (answers to follow)", user_id=freddie.id, username="freddie")
         keepgoing.save()
-        keepgoing = PostModel(content="Owning a dog may reduce heart disease risk - says the American Heart Association", user_id=bertie.id)
+        keepgoing = PostModel(content="Owning a dog may reduce heart disease risk - says the American Heart Association", user_id=bertie.id, username="bertie")
         keepgoing.save()
-        keepgoing = PostModel(content="The body can produce enough heat in just half an hour to boil water. Each hour, the human body creates 350,000 joules of energy, which creates the same amount of energy as a 100-watt light bulb. This ends up being enough heat to boil a half gallon of water in just 30 minutes", user_id=freddie.id)
+        keepgoing = PostModel(content="The body can produce enough heat in just half an hour to boil water. Each hour, the human body creates 350,000 joules of energy, which creates the same amount of energy as a 100-watt light bulb. This ends up being enough heat to boil a half gallon of water in just 30 minutes", user_id=freddie.id, username="bertie")
         keepgoing.save()
-        keepgoing = PostModel(content="Getting more exercise may mean better sleep. Moderate exercise may increase the amount of deep sleep you get. While you won’t want to run a mile before bed if you want to be ready to sleep, getting some exercise earlier in the day may improve your overall bedtime experience.", user_id=bertie.id)
+        keepgoing = PostModel(content="Getting more exercise may mean better sleep. Moderate exercise may increase the amount of deep sleep you get. While you won’t want to run a mile before bed if you want to be ready to sleep, getting some exercise earlier in the day may improve your overall bedtime experience.", user_id=bertie.id, username="bertie")
         keepgoing.save()
-        keepgoing = PostModel(content="My best mate Bob tried yoga for the first time, ending up tangled in the mat. He laughed it off, vowing to return.", user_id=bertie.id)
+        keepgoing = PostModel(content="My best mate Bob tried yoga for the first time, ending up tangled in the mat. He laughed it off, vowing to return.", user_id=bertie.id, username="bertie")
         keepgoing.save()
-        keepgoing = PostModel(content="I had a little gym mishap: mistaking the leg press for a rowing machine, I hilariously paddled my way to a workout", user_id=freddie.id)
+        keepgoing = PostModel(content="I had a little gym mishap: mistaking the leg press for a rowing machine, I hilariously paddled my way to a workout", user_id=freddie.id, username="freddie")
         keepgoing.save()
-        keepgoing = PostModel(content="My husband Tom's run turned into a race with a squirrel, sprinting through the park to the cheers of amused onlookers.", user_id=bertie.id)
+        keepgoing = PostModel(content="My husband Tom's run turned into a race with a squirrel, sprinting through the park to the cheers of amused onlookers.", user_id=bertie.id, username="bertie")
         keepgoing.save()
-        keepgoing = PostModel(content="My sister, Sarah's attempt at Zumba had her dancing out of sync, but her infectious laughter kept the class energized and entertained", user_id=bertie.id)
+        keepgoing = PostModel(content="My sister, Sarah's attempt at Zumba had her dancing out of sync, but her infectious laughter kept the class energized and entertained", user_id=bertie.id, username="bertie")
         keepgoing.save()
 
     # Session seeding..
@@ -97,12 +98,12 @@ with app.app_context():
         percy_tue.save()
 
     # PARQ seeding..
-        bertie = ParqModel(question_one=True, question_two=True,question_three=True, question_four="This is a description", question_five="This is another description", question_six="And another description", question_seven=True, signed="This is a signature field", user_id=bertie.id)
+        bertie = ParqModel(question_one=True, question_two=True,question_three=True, question_four=True, question_four_ans="This is a description", question_five=True, question_five_ans="This is another description", question_six=True, question_six_ans="And another description", question_seven=True, signed="This is a signature field", name="name", date=date(2024, 4, 20), user_id=bertie.id)
         bertie.save()
         
     # Consent Form seeding..
-        # bertie_consent = ConsentformModel(one=True, two=True, three=True, four=True, five=True, six=True, seven=True, eight=True, signed="This is a signature field", user_id=bertie.id)
-        # bertie_consent.save()
+        bertie_consent = ConsentformModel(question_one=True, question_two=True, question_three=True, question_four=True, question_five=True, question_six=True, question_seven=True, question_eight=True, signed="This is a signature field", name="name", email="kdjfnfdf", date=date(2024, 4, 20), user_id=bertie.id)
+        bertie_consent.save()
 
 
 

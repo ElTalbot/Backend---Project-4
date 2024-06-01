@@ -15,8 +15,11 @@ class UserModel(db.Model, BaseModel):
 
     __tablename__ = "users"
 
-    username = db.Column(db.Text, nullable=False, unique=True)
+    username = db.Column(db.Text, nullable=False)
+    surname = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False, unique=True)
+    number = db.Column (db.Text, nullable=False, unique=True)
+    terms = db.Column (db.Boolean, nullable=False)
     is_admin = db.Column(db.Text, nullable=True)
 
     password_hash = db.Column(db.Text, nullable=True)

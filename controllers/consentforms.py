@@ -47,11 +47,13 @@ def create():
         print(consent_dictionary)
         
         consent.save()
+        
     except ValidationError as e:
         return {"errors":e.messages, "message": "Something went wrong!"}, HTTPStatus.UNPROCESSABLE_ENTITY
     except Exception as e:
         print(e)
         return {"message": "Something went wrong"}, HTTPStatus.INTERNAL_SERVER_ERROR
+    
     
     return consent_schema.jsonify(consent)
 
