@@ -20,6 +20,7 @@ class UserSchema(marsh.SQLAlchemyAutoSchema):
   
     password = fields.String(required=True, validate=validate_password)
 
+
     class Meta:
         model = UserModel
         load_instance = True

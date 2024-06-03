@@ -27,6 +27,7 @@ router = Blueprint('users', __name__)
 def signup():
     try:
         user_dictionary = request.json
+        print(user_dictionary)
         if user_dictionary["password"] == user_dictionary["confirmPassword"]:
             del user_dictionary["confirmPassword"]
             user_model = user_schema.load(user_dictionary)
