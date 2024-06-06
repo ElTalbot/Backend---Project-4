@@ -16,7 +16,7 @@ class ConsentformModel(db.Model, BaseModel):
     signed = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False)
     name = db.Column(db.Text, nullable=False)
-    date = db.Column(db.Date, nullable=False, unique=True)
+    date = db.Column(db.Date, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 

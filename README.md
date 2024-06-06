@@ -10,7 +10,9 @@ The premise of my final project at GA derived from my own personal business wher
 
 ## Link
 
-[Owlcore](https://eltalbot.github.io/SEB-Project-1/)
+[Owlcore](https://owlcore.netlify.app/)
+
+This deployed project link is the result of amendments I have made post GA and in collaboration with a fellow developer, this will all be discussed further in the README.
 
 ## Technology Used
 
@@ -52,10 +54,7 @@ As a solo project at the end of 2weeks the following functionality was in place:
 - Cancel session
 
 <div style="overflow: auto;">
-    <img src="READMEAssets/login.png" alt="Login Page" style="float:left; margin-right:10px; margin-top:10px" width="300"/>
     <img src="READMEAssets/signup.png" alt="Sign Up Page" style="float:left; margin-right:10px; margin-top:10px" width="300"/>
-</div> 
-<div style="overflow: auto;">
    <img src="READMEAssets/movements.png" alt="Movements Page" style="float:left; margin-right:10px; margin-top:10px;" width="300"/>
     <img src="READMEAssets/movement.png" alt="Movement Page" style="float:left; margin-right:10px; margin-top:10px" width="300"/>
 </div>
@@ -71,9 +70,9 @@ As a solo project at the end of 2weeks the following functionality was in place:
 ### Post GA
 
 I wanted to build on my project and improve the UX of the site as well as add additional features.
-In order to do this, I collaborated with a friend who is also a recent graduate of Brainstation Software Developer Bootcamp to build upon my project.
+In order to do this, I collaborated with a friend who is also a recent graduate of Brainstation Software Developer Bootcamp to build upon my project. The deployed link is a result of this collaboration and amendments I have made post GA.
 [Casper](https://github.com/CasperLam) spent a week focussing on the front end. In this time Casper implemented the PARQ and Consent Form Modal functionality as well as build the framework that enabled me to both learn and utilise the BEM (Block Element Modifier) methodology to manage and structure my front end.
-For that week and for the following 4days I spent the time ironing out the UX as well as adding additional features including:
+For a following 12days I spent the time ironing out the UX as well as adding additional features including:
 
 - A fully booked notification
 - Hide and show conditional on the book/cancel buttons dependant on the users booking status on that specific session
@@ -200,7 +199,7 @@ This is then called within the `get` sessions request, which subsequently return
 
 ### Fully Booked Function
 
-Another feature I wanted to include is the ability to notify the users when a session reached its capacity and was fully booked, this subsequently prevents the user from being able to book (by hiding both the book and cancel buttons)
+Another feature I wanted to include is the ability to notify the users when a session reached its capacity and was fully booked, this subsequently prevents the user from being able to book (by hiding both the book and cancel buttons).
 
 This was a learning curve for me and allowed me to explore code I hadn't experienced before. The screenshot below is the function that enables this feature. To help me understand it and therefore implement it I broke it down took each step independantly.
 

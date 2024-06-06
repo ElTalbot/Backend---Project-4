@@ -17,6 +17,7 @@ app = Flask(__name__)
 def hello():
     return "Hello, World!"
 
+
 app.config["SQLALCHEMY_DATABASE_URI"] = db_URI
 
 CORS(app)
